@@ -23,32 +23,36 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: const CustomAppBar(pageTitle: 'Home'),
       body: Center(
-        child: Container(
-          padding: const EdgeInsets.all(Sizes.s20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Set total player
-              if (controller.numberOfPlayers == 0)
-                _buildSetPlayer()
-              // Need actions: Add New Question
-              else if (controller.numberOfPlayers > 0 &&
-                  controller.cardList.length < controller.numberOfPlayers * 3 &&
-                  !controller.isAnswered)
-                _buildAddQuestion()
-              // Start the game
-              else if (controller.numberOfPlayers > 0 &&
-                  !controller.gameStarted &&
-                  !controller.isAnswered)
-                _buildStartGame()
-              // on Game
-              else if (controller.gameStarted && controller.cardList.isNotEmpty)
-                _buildOnGame()
-              // Finished
-              else if (controller.isAnswered && controller.cardList.isEmpty)
-                _buildFinished(),
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(Sizes.s20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Set total player
+                if (controller.numberOfPlayers == 0)
+                  _buildSetPlayer()
+                // Need actions: Add New Question
+                else if (controller.numberOfPlayers > 0 &&
+                    controller.cardList.length <
+                        controller.numberOfPlayers * 3 &&
+                    !controller.isAnswered)
+                  _buildAddQuestion()
+                // Start the game
+                else if (controller.numberOfPlayers > 0 &&
+                    !controller.gameStarted &&
+                    !controller.isAnswered)
+                  _buildStartGame()
+                // on Game
+                else if (controller.gameStarted &&
+                    controller.cardList.isNotEmpty)
+                  _buildOnGame()
+                // Finished
+                else if (controller.isAnswered && controller.cardList.isEmpty)
+                  _buildFinished(),
+              ],
+            ),
           ),
         ),
       ),

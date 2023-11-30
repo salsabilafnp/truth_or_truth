@@ -15,7 +15,7 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    double containerHeight = screenHeight * 1 / 3;
+    double containerHeight = screenHeight * 2 / 3;
 
     return Scaffold(
       backgroundColor: AppColor.tersier,
@@ -25,8 +25,6 @@ class AuthPage extends StatelessWidget {
             children: [
               Center(
                 child: Container(
-                  width: screenWidth,
-                  height: containerHeight,
                   padding: const EdgeInsets.symmetric(vertical: 100),
                   child: Column(
                     children: [
