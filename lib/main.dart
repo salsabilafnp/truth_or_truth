@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:truth_or_truth/auth/controller/auth_controller.dart';
-import 'package:truth_or_truth/auth/view/auth_page.dart';
-import 'package:truth_or_truth/home/view/home_page.dart';
-import 'package:truth_or_truth/settings/view/settings_page.dart';
+import 'package:truth_or_truth/auth/auth_controller.dart';
+import 'package:truth_or_truth/auth/auth_page.dart';
+import 'package:truth_or_truth/home/home_page.dart';
+import 'package:truth_or_truth/settings/settings_page.dart';
 import 'package:truth_or_truth/utils/theme.dart';
 
 void main() {

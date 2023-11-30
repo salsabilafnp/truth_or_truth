@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:truth_or_truth/settings/view/settings_page.dart';
+import 'package:truth_or_truth/settings/settings_page.dart';
 import 'package:truth_or_truth/utils/theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {

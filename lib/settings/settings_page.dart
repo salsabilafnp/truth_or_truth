@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:truth_or_truth/auth/controller/auth_controller.dart';
+import 'package:truth_or_truth/auth/auth_controller.dart';
 import 'package:truth_or_truth/components/custom_appbar.dart';
 import 'package:truth_or_truth/components/custom_button.dart';
 import 'package:truth_or_truth/utils/const.dart';
