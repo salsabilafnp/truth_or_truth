@@ -1,28 +1,18 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:truth_or_truth/home/view/home_page.dart';
 
-class AuthController {
+class AuthController extends GetxController {
   final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController rePasswordController = TextEditingController();
 
-  void register() {
+  void saveUser() {
     String username = usernameController.text;
-    String password = passwordController.text;
-    // if (passwordController == rePasswordController) {
-    // }
 
-    if (username.isNotEmpty && password.isNotEmpty) {
-      inspect('Registrasi berhasil! Username: $username, Password: $password');
+    if (username.isNotEmpty) {
+      Get.snackbar('Registrasi berhasil!', 'Hello, $username');
+      Get.offAll(() => const HomePage());
     } else {
-      inspect('Username dan password harus diisi.');
+      Get.snackbar('Siapa namamu?', 'Username harus diisi.');
     }
-  }
-
-  void dispose() {
-    usernameController.dispose();
-    passwordController.dispose();
-    rePasswordController.dispose();
   }
 }
