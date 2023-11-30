@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class AuthController {
@@ -8,11 +10,13 @@ class AuthController {
   void register() {
     String username = usernameController.text;
     String password = passwordController.text;
+    // if (passwordController == rePasswordController) {
+    // }
 
     if (username.isNotEmpty && password.isNotEmpty) {
-      print('Registrasi berhasil! Username: $username, Password: $password');
+      inspect('Registrasi berhasil! Username: $username, Password: $password');
     } else {
-      print('Username dan password harus diisi.');
+      inspect('Username dan password harus diisi.');
     }
   }
 
