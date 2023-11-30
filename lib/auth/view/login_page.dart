@@ -5,6 +5,7 @@ import 'package:truth_or_truth/auth/view/register_page.dart';
 import 'package:truth_or_truth/components/custom_button.dart';
 import 'package:truth_or_truth/components/custom_text_button.dart';
 import 'package:truth_or_truth/components/custom_text_field.dart';
+import 'package:truth_or_truth/home/view/home_page.dart';
 import 'package:truth_or_truth/utils/const.dart';
 import 'package:truth_or_truth/utils/theme.dart';
 
@@ -98,7 +99,7 @@ class LoginPage extends StatelessWidget {
                     CustomButton(
                       buttonLabel: 'Login',
                       onPressed: () {
-                        // Get.to(HomePage());
+                        Get.offAll(() => const HomePage());
                       },
                     ),
                     const SizedBox(height: Sizes.s15),
