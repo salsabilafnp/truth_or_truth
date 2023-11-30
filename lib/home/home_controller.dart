@@ -10,6 +10,7 @@ class HomePageController extends GetxController {
   bool isAnswered = false;
 
   TextEditingController playersController = TextEditingController();
+  TextEditingController inputController = TextEditingController();
 
   void resetHomePageValues() {
     cardList.clear();
@@ -18,6 +19,8 @@ class HomePageController extends GetxController {
     gameStarted = false;
     selectedCard = "";
     isAnswered = false;
+    playersController.text = '';
+    inputController.text = '';
 
     update();
   }

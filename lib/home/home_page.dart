@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:truth_or_truth/components/custom_appbar.dart';
 import 'package:truth_or_truth/components/custom_button.dart';
+import 'package:truth_or_truth/components/custom_text_button.dart';
 import 'package:truth_or_truth/components/custom_text_field.dart';
 import 'package:truth_or_truth/home/home_controller.dart';
 import 'package:truth_or_truth/utils/const.dart';
@@ -33,39 +34,79 @@ class _HomePageState extends State<HomePage> {
                 _buildSetPlayer()
               // Need actions: Add New Question
               else if (controller.numberOfPlayers > 0 &&
-                  controller.cardList.length < controller.numberOfPlayers * 3)
+                  controller.cardList.length < controller.numberOfPlayers * 3 &&
+                  !controller.isAnswered)
                 _buildAddQuestion()
               // Start the game
               else if (controller.numberOfPlayers > 0 &&
-                  controller.gameStarted == false &&
-                  controller.isAnswered == false)
-                _buildStartGame(),
+                  !controller.gameStarted &&
+                  !controller.isAnswered)
+                _buildStartGame()
               // on Game
-              if (controller.gameStarted == true) _buildOnGame(),
-              // Random Again
-              if (controller.gameStarted == true &&
-                  controller.isAnswered == true)
-                _buildRandom(),
+              else if (controller.gameStarted && controller.cardList.isNotEmpty)
+                _buildOnGame()
               // Finished
-              if (controller.isAnswered == true && controller.cardList.isEmpty)
+              else if (controller.isAnswered && controller.cardList.isEmpty)
                 _buildFinished(),
             ],
           ),
         ),
       ),
       floatingActionButton: Visibility(
-        visible: !controller.gameStarted,
+        visible: _checkVisibility(),
         child: FloatingActionButton(
           backgroundColor: AppColor.tersier,
           foregroundColor: AppColor.mainColor,
           child: const Icon(Icons.add),
           onPressed: () {
             setState(() {
-              controller.cardList.add('New Card');
+              _showInputDialog();
             });
           },
         ),
       ),
+    );
+  }
+
+  _checkVisibility() {
+    return !controller.gameStarted && controller.numberOfPlayers != 0;
+  }
+
+  _showInputDialog() {
+    TextEditingController inputController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("New Question"),
+          content: CustomTextField(
+            controller: inputController,
+            inputLabel: "What's your question?",
+          ),
+          actions: [
+            CustomTextButton(
+              buttonLabel: "Cancel",
+              textButtonType: TextButtonType.tersier,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            CustomTextButton(
+              buttonLabel: "Submit",
+              onPressed: () {
+                String newCardContent = inputController.text;
+                if (newCardContent.isNotEmpty) {
+                  setState(() {
+                    controller.cardList.add(newCardContent);
+                  });
+                }
+                Navigator.of(context).pop(); // Tutup dialog
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -150,6 +191,11 @@ class _HomePageState extends State<HomePage> {
             });
           },
         ),
+        const SizedBox(height: Sizes.s30),
+        Text(
+          'Current total created questions = ${controller.cardList.length}',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
       ],
     );
   }
@@ -212,30 +258,7 @@ class _HomePageState extends State<HomePage> {
         Column(
           children: cardWidgets,
         ),
-      ],
-    );
-  }
-
-  _buildRandom() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "The game already played",
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
         const SizedBox(height: Sizes.s30),
-        CustomButton(
-          buttonLabel: "Random",
-          onPressed: () {
-            setState(() {
-              controller.isAnswered = false;
-              controller.cardList.shuffle();
-              controller.currentCardIndex = 0;
-            });
-          },
-        ),
-        const SizedBox(height: Sizes.s20),
         Text(
           'Current total created questions = ${controller.cardList.length}',
           style: Theme.of(context).textTheme.headlineSmall,
@@ -252,6 +275,15 @@ class _HomePageState extends State<HomePage> {
           "Game Over",
           style: Theme.of(context).textTheme.headlineMedium,
         ),
+        const SizedBox(height: Sizes.s30),
+        CustomButton(
+          buttonLabel: "Reset",
+          onPressed: () {
+            setState(() {
+              controller.resetHomePageValues();
+            });
+          },
+        ),
       ],
     );
   }
@@ -264,12 +296,14 @@ class _HomePageState extends State<HomePage> {
           title: Text("Card $cardNumber"),
           content: Text(cardContent),
           actions: [
-            TextButton(
-              onPressed: () {
-                _removeCard(cardNumber);
-              },
-              child: Text("Answered"),
-            ),
+            if (controller.cardList.isNotEmpty)
+              TextButton(
+                onPressed: () {
+                  _removeCard(cardNumber);
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Answered"),
+              ),
           ],
         );
       },
@@ -278,8 +312,10 @@ class _HomePageState extends State<HomePage> {
 
   _removeCard(int cardNumber) {
     setState(() {
-      controller.isAnswered = true;
-      controller.cardList.removeAt(cardNumber - 1);
+      if (controller.cardList.isNotEmpty) {
+        controller.isAnswered = true;
+        controller.cardList.removeAt(cardNumber - 1);
+      }
     });
   }
 }
