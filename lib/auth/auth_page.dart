@@ -25,7 +25,7 @@ class AuthPage extends StatelessWidget {
             children: [
               Center(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 100),
+                  padding: const EdgeInsets.symmetric(vertical: Sizes.s50),
                   child: Column(
                     children: [
                       Text(
