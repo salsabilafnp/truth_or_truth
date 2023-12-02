@@ -22,36 +22,38 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(pageTitle: 'Home'),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(Sizes.s20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Set total player
-                if (controller.numberOfPlayers == 0)
-                  _buildSetPlayer()
-                // Need actions: Add New Question
-                else if (controller.numberOfPlayers > 0 &&
-                    controller.cardList.length <
-                        controller.numberOfPlayers * 3 &&
-                    !controller.isAnswered)
-                  _buildAddQuestion()
-                // Start the game
-                else if (controller.numberOfPlayers > 0 &&
-                    !controller.gameStarted &&
-                    !controller.isAnswered)
-                  _buildStartGame()
-                // on Game
-                else if (controller.gameStarted &&
-                    controller.cardList.isNotEmpty)
-                  _buildOnGame()
-                // Finished
-                else if (controller.isAnswered && controller.cardList.isEmpty)
-                  _buildFinished(),
-              ],
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(Sizes.s20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Set total player
+                  if (controller.numberOfPlayers == 0)
+                    _buildSetPlayer()
+                  // Need actions: Add New Question
+                  else if (controller.numberOfPlayers > 0 &&
+                      controller.cardList.length <
+                          controller.numberOfPlayers * 3 &&
+                      !controller.isAnswered)
+                    _buildAddQuestion()
+                  // Start the game
+                  else if (controller.numberOfPlayers > 0 &&
+                      !controller.gameStarted &&
+                      !controller.isAnswered)
+                    _buildStartGame()
+                  // on Game
+                  else if (controller.gameStarted &&
+                      controller.cardList.isNotEmpty)
+                    _buildOnGame()
+                  // Finished
+                  else if (controller.isAnswered && controller.cardList.isEmpty)
+                    _buildFinished(),
+                ],
+              ),
             ),
           ),
         ),
@@ -82,33 +84,35 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("New Question"),
-          content: CustomTextField(
-            controller: inputController,
-            inputLabel: "What's your question?",
+        return SingleChildScrollView(
+          child: AlertDialog(
+            title: const Text("New Question"),
+            content: CustomTextField(
+              controller: inputController,
+              inputLabel: "What's your question?",
+            ),
+            actions: [
+              CustomTextButton(
+                buttonLabel: "Cancel",
+                textButtonType: TextButtonType.tersier,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              CustomTextButton(
+                buttonLabel: "Submit",
+                onPressed: () {
+                  String newCardContent = inputController.text;
+                  if (newCardContent.isNotEmpty) {
+                    setState(() {
+                      controller.cardList.add(newCardContent);
+                    });
+                  }
+                  Navigator.of(context).pop(); // Tutup dialog
+                },
+              ),
+            ],
           ),
-          actions: [
-            CustomTextButton(
-              buttonLabel: "Cancel",
-              textButtonType: TextButtonType.tersier,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            CustomTextButton(
-              buttonLabel: "Submit",
-              onPressed: () {
-                String newCardContent = inputController.text;
-                if (newCardContent.isNotEmpty) {
-                  setState(() {
-                    controller.cardList.add(newCardContent);
-                  });
-                }
-                Navigator.of(context).pop(); // Tutup dialog
-              },
-            ),
-          ],
         );
       },
     );
@@ -214,7 +218,7 @@ class _HomePageState extends State<HomePage> {
               _showCardDialog(i + 1, controller.cardList[i]);
             },
             child: Card(
-              margin: EdgeInsets.all(Sizes.s15),
+              margin: const EdgeInsets.all(Sizes.s15),
               child: Padding(
                 padding: const EdgeInsets.all(Sizes.s50),
                 child: Row(
@@ -236,7 +240,7 @@ class _HomePageState extends State<HomePage> {
               _showCardDialog(i + 1, controller.cardList[i]);
             },
             child: Card(
-              margin: EdgeInsets.all(Sizes.s15),
+              margin: const EdgeInsets.all(Sizes.s15),
               child: Padding(
                 padding: const EdgeInsets.all(Sizes.s50),
                 child: Row(

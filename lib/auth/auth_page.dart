@@ -13,18 +13,14 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    double containerHeight = screenHeight * 2 / 3;
-
     return Scaffold(
       backgroundColor: AppColor.tersier,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Center(
-                child: Container(
+      body: Center(
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                Container(
                   padding: const EdgeInsets.symmetric(vertical: Sizes.s50),
                   child: Column(
                     children: [
@@ -48,56 +44,57 @@ class AuthPage extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-              Container(
-                width: screenWidth,
-                height: containerHeight,
-                margin: const EdgeInsets.all(Sizes.s15),
-                padding: const EdgeInsets.all(Sizes.s15),
-                decoration: const BoxDecoration(
-                  color: AppColor.mainColor,
-                  borderRadius: BorderRadius.horizontal(
-                    left: Radius.circular(Sizes.s10),
-                    right: Radius.circular(Sizes.s10),
+                Container(
+                  margin: const EdgeInsets.all(Sizes.s15),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: Sizes.s30,
+                    horizontal: Sizes.s15,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: AppColor.mainColor,
+                    borderRadius: BorderRadius.horizontal(
+                      left: Radius.circular(Sizes.s10),
+                      right: Radius.circular(Sizes.s10),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Before we start the game,',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: AppColor.primary),
+                      ),
+                      const SizedBox(height: Sizes.s20),
+                      Text(
+                        'Who\'s your name, buddy?',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: AppColor.primary),
+                      ),
+                      const SizedBox(height: Sizes.s30),
+                      CustomTextField(
+                        controller: controller.usernameController,
+                        inputLabel: 'Your Name',
+                      ),
+                      const SizedBox(height: Sizes.s20),
+                      CustomButton(
+                        buttonLabel: 'Save',
+                        onPressed: () {
+                          controller.saveUser();
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Before we start the game,',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(color: AppColor.primary),
-                    ),
-                    const SizedBox(height: Sizes.s20),
-                    Text(
-                      'Who\'s your name, buddy?',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(color: AppColor.primary),
-                    ),
-                    const SizedBox(height: Sizes.s30),
-                    CustomTextField(
-                      controller: controller.usernameController,
-                      inputLabel: 'Your Name',
-                    ),
-                    const SizedBox(height: Sizes.s20),
-                    CustomButton(
-                      buttonLabel: 'Save',
-                      onPressed: () {
-                        controller.saveUser();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
